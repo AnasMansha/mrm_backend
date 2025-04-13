@@ -1,0 +1,63 @@
+WITH columns_info AS (
+  SELECT
+    table_name,
+    column_name,
+    data_type,
+    is_nullable,
+    column_default
+  FROM
+    information_schema.columns
+  WHERE
+    table_schema = 'public'
+),
+foreign_keys AS (
+  SELECT
+    tc.table_name AS source_table,
+    kcu.column_name AS source_column,
+    ccu.table_name AS target_table,
+    ccu.column_name AS target_column
+  FROM
+    information_schema.table_constraints AS tc
+    JOIN information_schema.key_column_usage AS kcu
+      ON tc.constraint_name = kcu.constraint_name
+      AND tc.table_schema = kcu.table_schema
+    JOIN information_schema.constraint_column_usage AS ccu
+      ON ccu.constraint_name = tc.constraint_name
+      AND ccu.table_schema = tc.table_schema
+  WHERE
+    tc.constraint_type = 'FOREIGN KEY'
+    AND tc.table_schema = 'public'
+),
+table_columns AS (
+  SELECT
+    table_name,
+    json_agg(json_build_object(
+      'column_name', column_name,
+      'data_type', data_type,
+      'is_nullable', is_nullable,
+      'default', column_default
+    )) AS columns
+  FROM columns_info
+  GROUP BY table_name
+),
+table_fks AS (
+  SELECT
+    source_table,
+    json_agg(json_build_object(
+      'column', source_column,
+      'references_table', target_table,
+      'references_column', target_column
+    )) AS foreign_keys
+  FROM foreign_keys
+  GROUP BY source_table
+)
+
+SELECT json_agg(
+  json_build_object(
+    'table', tc.table_name,
+    'columns', tc.columns,
+    'foreign_keys', COALESCE(tf.foreign_keys, '[]'::json)
+  )
+) AS db_structure
+FROM table_columns tc
+LEFT JOIN table_fks tf ON tc.table_name = tf.source_table;

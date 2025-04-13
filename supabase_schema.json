@@ -1,0 +1,371 @@
+[
+  {
+    "table": "deal_items",
+    "columns": [
+      {
+        "column_name": "menu_item_id",
+        "data_type": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "amount",
+        "data_type": "smallint",
+        "is_nullable": "NO",
+        "default": "'1'::smallint"
+      },
+      {
+        "column_name": "id",
+        "data_type": "bigint",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "column_name": "deal_id",
+        "data_type": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      }
+    ],
+    "foreign_keys": [
+      {
+        "column": "deal_id",
+        "references_table": "deals",
+        "references_column": "id"
+      },
+      {
+        "column": "menu_item_id",
+        "references_table": "menu_items",
+        "references_column": "id"
+      }
+    ]
+  },
+  {
+    "table": "deals",
+    "columns": [
+      {
+        "column_name": "is_active",
+        "data_type": "boolean",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "column_name": "name",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "id",
+        "data_type": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "column_name": "deal_scope",
+        "data_type": "json",
+        "is_nullable": "NO",
+        "default": "'[\"dine\", \"takeaway\", \"delivery\"]'::json"
+      },
+      {
+        "column_name": "deal_start",
+        "data_type": "timestamp without time zone",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "column_name": "deal_end",
+        "data_type": "timestamp without time zone",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "column_name": "deal_for",
+        "data_type": "json",
+        "is_nullable": "NO",
+        "default": "'[\"all\"]'::json"
+      },
+      {
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "column_name": "amount",
+        "data_type": "double precision",
+        "is_nullable": "NO",
+        "default": null
+      }
+    ],
+    "foreign_keys": []
+  },
+  {
+    "table": "feedbacks",
+    "columns": [
+      {
+        "column_name": "id",
+        "data_type": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "column_name": "rating",
+        "data_type": "real",
+        "is_nullable": "NO",
+        "default": "'5'::real"
+      },
+      {
+        "column_name": "user_id",
+        "data_type": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "column_name": "attached_image_urls",
+        "data_type": "json",
+        "is_nullable": "NO",
+        "default": "'[]'::json"
+      },
+      {
+        "column_name": "order_id",
+        "data_type": "bigint",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "feedback_chat",
+        "data_type": "json",
+        "is_nullable": "NO",
+        "default": "'[]'::json"
+      },
+      {
+        "column_name": "feedback",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": null
+      }
+    ],
+    "foreign_keys": [
+      {
+        "column": "order_id",
+        "references_table": "orders",
+        "references_column": "id"
+      }
+    ]
+  },
+  {
+    "table": "menu_categories",
+    "columns": [
+      {
+        "column_name": "description",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": "''::text"
+      },
+      {
+        "column_name": "name",
+        "data_type": "text",
+        "is_nullable": "NO",
+        "default": null
+      }
+    ],
+    "foreign_keys": []
+  },
+  {
+    "table": "menu_items",
+    "columns": [
+      {
+        "column_name": "discount_until",
+        "data_type": "timestamp without time zone",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "created_at",
+        "data_type": "timestamp without time zone",
+        "is_nullable": "YES",
+        "default": "now()"
+      },
+      {
+        "column_name": "total_orders",
+        "data_type": "bigint",
+        "is_nullable": "NO",
+        "default": "'0'::bigint"
+      },
+      {
+        "column_name": "id",
+        "data_type": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "column_name": "is_available",
+        "data_type": "boolean",
+        "is_nullable": "NO",
+        "default": "true"
+      },
+      {
+        "column_name": "discount",
+        "data_type": "real",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "name",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "category",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "description",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "image_url",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "price",
+        "data_type": "real",
+        "is_nullable": "YES",
+        "default": null
+      }
+    ],
+    "foreign_keys": [
+      {
+        "column": "category",
+        "references_table": "menu_categories",
+        "references_column": "name"
+      }
+    ]
+  },
+  {
+    "table": "order_items",
+    "columns": [
+      {
+        "column_name": "deal_item_id",
+        "data_type": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "item_type",
+        "data_type": "text",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "column_name": "id",
+        "data_type": "uuid",
+        "is_nullable": "NO",
+        "default": "gen_random_uuid()"
+      },
+      {
+        "column_name": "amount",
+        "data_type": "smallint",
+        "is_nullable": "NO",
+        "default": "'1'::smallint"
+      },
+      {
+        "column_name": "order_id",
+        "data_type": "bigint",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "special_instructions",
+        "data_type": "text",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "menu_item_id",
+        "data_type": "uuid",
+        "is_nullable": "YES",
+        "default": null
+      }
+    ],
+    "foreign_keys": [
+      {
+        "column": "order_id",
+        "references_table": "orders",
+        "references_column": "id"
+      },
+      {
+        "column": "deal_item_id",
+        "references_table": "deals",
+        "references_column": "id"
+      },
+      {
+        "column": "menu_item_id",
+        "references_table": "menu_items",
+        "references_column": "id"
+      }
+    ]
+  },
+  {
+    "table": "orders",
+    "columns": [
+      {
+        "column_name": "total_amount",
+        "data_type": "real",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "column_name": "id",
+        "data_type": "bigint",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "column_name": "created_at",
+        "data_type": "timestamp with time zone",
+        "is_nullable": "NO",
+        "default": "now()"
+      },
+      {
+        "column_name": "user_id",
+        "data_type": "uuid",
+        "is_nullable": "NO",
+        "default": null
+      },
+      {
+        "column_name": "status",
+        "data_type": "text",
+        "is_nullable": "NO",
+        "default": "'pending'::text"
+      },
+      {
+        "column_name": "total_items",
+        "data_type": "smallint",
+        "is_nullable": "YES",
+        "default": null
+      },
+      {
+        "column_name": "details",
+        "data_type": "json",
+        "is_nullable": "NO",
+        "default": null
+      }
+    ],
+    "foreign_keys": []
+  }
+]
