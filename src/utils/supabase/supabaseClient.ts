@@ -32,10 +32,10 @@ export class SupabaseService {
     return this.supabasePublic;
   }
 
-  async uploadFiles(
+  async uploadImage(
     file: Express.Multer.File,
     user_id: string,
-    bucket = 'assests',
+    bucket = 'images',
   ) {
     try {
       const fileName = `${user_id}-${Date.now()}`;
